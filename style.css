@@ -1,0 +1,40 @@
+body {
+  background-color: #efefef;
+  padding-top: 60px;
+  width: 100vw;
+  height: 100vh;
+}
+
+.container {
+  background-color: #9cd0db;
+  text-align: center;
+  font-family: Arial;
+  color: #fafafa;
+  font-weight: bold;
+  height: 75vh;
+  border: 15px solid #fafafa;
+  border-radius: 50px;
+  box-shadow: 0 0 20px #cccccc;
+}
+
+img.choice {
+  width: 20%;
+  height: 20%;
+  transition: 0.30s;
+  border: 6px solid #fafafa;
+  border-radius: 50%;
+}
+
+img.choice:hover {
+  border: 10px solid #fafafa;
+  opacity: 0.80;
+}
+
+.choice-icons {
+  margin-bottom: 20px;
+}
+
+.scoreboard {
+  margin-top: 10px;
+  border-top: 5px dashed #fafafa;
+}

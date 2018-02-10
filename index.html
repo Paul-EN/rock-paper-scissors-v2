@@ -9,9 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
-
   <body>
-
     <div class="container">
       <div class="row">
         <div class="col-xs-3"></div>
@@ -20,37 +18,150 @@
           <p>MAKE YOUR CHOICE</p>
         </div>
       </div>
-      <div class="choice-icons row">
+      <div class="row choice-icons">
         <div class="col-xs-3"></div>
         <div class="col-xs-6">
-          <img class="choice rock" src="./images/rock.jpg">
-          <img class="choice paper" src="./images/paper.jpg">
-          <img class="choice scissors" src="./images/scissors.jpg">
+          <div class="row buttons">
+            <div class="col-xs-4">
+              <button class="btn" id="rock"><img class="choice" src="./images/rock.jpg"></button>
+            </div>
+            <div class="col-xs-4">
+              <button class="btn" id="paper"><img class="choice" src="./images/paper.jpg"></button>
+            </div>
+            <div class="col-xs-4">
+              <button class="btn" id="scissors"><img class="choice" src="./images/scissors.jpg"></button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row scoreboard">
-        <div class="col-xs-12">
-          <h2><strong>SCORE BOARD</strong></h2>
+        <div class="col-xs-4 player-result">
+        </div>
+        <div class="col-xs-4">
+          <h2 style="font-weight: bold">SCORE BOARD</h2>
+        </div>
+        <div class="col-xs-4 computer-result">
         </div>
       </div>
       <div class="row">
         <div class="col-xs-4 player">
           <h3>PLAYER</h3>
+          <p class="counter">00</p>
         </div>
         <div class="col-xs-4 round">
-          <h3>ROUND</h3>
+          <h3>DRAW</h3>
+          <p class="counter">00</p>
         </div>
         <div class="col-xs-4 computer">
           <h3>COMPUTER</h3>
+          <p class="counter">00</p>
         </div>
       </div>
-
     </div>
 
+    <script>
+      function computerPlay() {
+        let num = Math.floor((Math.random() * 3) + 1);
+        if (num == 1) {
+          return 'Rock';
+        } else if (num == 2) {
+            return 'Paper';
+          } else {
+              return 'Scissors';
+            }
+      }
+
+      let playerWins = 0;
+      let computerWins = 0;
+      let roundDraws = 0;
+
+      function checkScore() {
+        let scoreBoard = 'Player: ' + pad2(playerWins) + ' | ' + 'Computer: ' + pad2(computerWins); + ' | ' + 'Draws: ' + pad2(roundDraws);
+        if (playerWins > computerWins) {
+          alert(scoreBoard + '. ' + 'You Win!');
+          console.log(scoreBoard + '. ' + 'You Win!');
+        } else if (playerWins < computerWins) {
+          alert(scoreBoard + '. ' + 'You Lose!');
+          console.log(scoreBoard + '. ' + 'You Lose!');
+        } else if (playerWins == computerWins) {
+          alert(scoreBoard + '. ' + 'It\'s a tie!');
+          console.log(scoreBoard + '. ' + 'It\'s a tie!');
+        }
+      }
+
+      function finalScore() {
+        if (playerWins == 5) {
+          let container = document.querySelector('.player-result')
+          let playerResult = document.createElement('h2');
+          playerResult.style.cssText = 'font-weight: bold';
+          playerResult.textContent = 'WINNER!';
+          container.appendChild(playerResult);
+          let container = document.querySelector('.computer-result')
+          let computerResult = document.createElement('h2');
+          computerResult.style.cssText = 'font-weight: bold';
+          computerResult.textContent = 'WINNER!';
+          container.appendChild(computerResult);
+        } else if (computerWins == 5) {
+          let container = document.querySelector('.computer-result')
+          let computerResult = document.createElement('h2');
+          computerResult.style.cssText = 'font-weight: bold';
+          computerResult.textContent = 'WINNER!';
+          container.appendChild(computerResult);
+        }
+      }
+
+      function pad2(number) {
+        return (number < 10 ? '0' : '') + number;
+      }
+
+      document.body.addEventListener("click", function playRound(e) {
+        let playerSelection = e.target.id;
+        let a = playerSelection.toLowerCase();
+        let b = computerPlay().toLowerCase();
+        let win = 'Player: ' + a + ' | ' + 'Computer: ' + b + '. ' + 'You win!';
+        let lose = 'Player: ' + a + ' | ' + 'Computer: ' + b + '. ' + 'You lost!';
+        let draw = 'Player: ' + a + ' | ' + 'Computer: ' + b + '. ' + 'It\'s a tie!';
+
+        if (!(a === b)) {
+          if (a === 'rock') {
+            if (b === 'scissors') {
+              alert(win);
+              console.log(win);
+              ++playerWins;
+            } else if (b === 'paper') {
+                alert(lose);
+                console.log(lose);
+                ++computerWins;
+              }
+          } else if (a === 'paper') {
+              if (b === 'rock') {
+                alert(win);
+                console.log(win);
+                ++playerWins;
+              } else if (b === 'scissors') {
+                  alert(lose);
+                  console.log(lose);
+                  ++computerWins;
+                }
+            } else if (a === 'scissors') {
+                if (b === 'paper') {
+                  alert(win);
+                  console.log(win);
+                  ++playerWins;
+                } else if (b === 'rock') {
+                    alert(lose);
+                    console.log(lose);
+                    ++computerWins;
+                  }
+              } else return;
+        } else if (a === b) {
+            alert(draw);
+            console.log(draw);
+            ++roundDraws;
+          }
+
+        return checkScore();
+      })
+    </script>
   </body>
-
-  <script>
-
-  </script>
-
 </html>

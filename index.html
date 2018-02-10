@@ -15,7 +15,7 @@
         <div class="col-xs-3"></div>
         <div class="col-xs-6">
           <h1><strong>LETS PLAY <br>ROCK PAPER SCISSORS!</strong></h1>
-          <p>MAKE YOUR CHOICE</p>
+          <p>CHOOSE YOUR WEAPON</p>
         </div>
       </div>
       <div class="row choice-icons">
@@ -43,18 +43,22 @@
         <div class="col-xs-4 computer-result">
         </div>
       </div>
-      <div class="row">
+      <div class="row score-counters">
         <div class="col-xs-4 player">
           <h3>PLAYER</h3>
-          <p class="counter">00</p>
+          <p id="player-counter" class="counter">00</p>
         </div>
-        <div class="col-xs-4 round">
+        <div class="col-xs-4 draws">
           <h3>DRAW</h3>
-          <p class="counter">00</p>
+          <p id="draw-counter" class="counter">00</p>
         </div>
         <div class="col-xs-4 computer">
           <h3>COMPUTER</h3>
-          <p class="counter">00</p>
+          <p id="computer-counter" class="counter">00</p>
+        </div>
+      </div>
+      <div class="row round">
+        <div class="col-xs-12 round-result">
         </div>
       </div>
     </div>
@@ -78,42 +82,58 @@
       function checkScore() {
         let scoreBoard = 'Player: ' + pad2(playerWins) + ' | ' + 'Computer: ' + pad2(computerWins); + ' | ' + 'Draws: ' + pad2(roundDraws);
         if (playerWins > computerWins) {
-          alert(scoreBoard + '. ' + 'You Win!');
           console.log(scoreBoard + '. ' + 'You Win!');
         } else if (playerWins < computerWins) {
-          alert(scoreBoard + '. ' + 'You Lose!');
           console.log(scoreBoard + '. ' + 'You Lose!');
         } else if (playerWins == computerWins) {
-          alert(scoreBoard + '. ' + 'It\'s a tie!');
           console.log(scoreBoard + '. ' + 'It\'s a tie!');
         }
-      }
 
-      /*
-      function finalScore() {
-        if (playerWins == 5) {
-          let container = document.querySelector('.player-result')
-          let playerResult = document.createElement('h2');
-          playerResult.style.cssText = 'font-weight: bold';
-          playerResult.textContent = 'WINNER!';
-          container.appendChild(playerResult);
-          let container = document.querySelector('.computer-result')
-          let computerResult = document.createElement('h2');
-          computerResult.style.cssText = 'font-weight: bold';
-          computerResult.textContent = 'WINNER!';
-          container.appendChild(computerResult);
-        } else if (computerWins == 5) {
-          let container = document.querySelector('.computer-result')
-          let computerResult = document.createElement('h2');
-          computerResult.style.cssText = 'font-weight: bold';
-          computerResult.textContent = 'WINNER!';
-          container.appendChild(computerResult);
+        updateScoreBoard();
+
+        if (playerWins == 5 || computerWins == 5) {
+          return finalScore();
         }
       }
-      */
 
       function pad2(number) {
         return (number < 10 ? '0' : '') + number;
+      }
+
+      function updateScoreBoard() {
+        document.getElementById('player-counter').textContent = pad2(playerWins);
+        document.getElementById('computer-counter').textContent = pad2(computerWins);
+        document.getElementById('draw-counter').textContent = pad2(roundDraws);
+      }
+
+      function finalScore() {
+        if (playerWins == 5) {
+          /*Player*/
+          let playerCont = document.querySelector('.player-result')
+          let playerResult = document.createElement('h2');
+          playerResult.style.cssText = 'font-size: 4em; font-weight: bold; color: #f9ff87';
+          playerResult.textContent = 'WINNER!';
+          playerCont.appendChild(playerResult);
+          /*Computer*/
+          let computerCont = document.querySelector('.computer-result')
+          let computerResult = document.createElement('h2');
+          computerResult.style.cssText = 'font-size: 4em; font-weight: bold; color: #f97887';
+          computerResult.textContent = 'LOSER!';
+          computerCont.appendChild(computerResult);
+        } else if (computerWins == 5) {
+          /*Player*/
+          let computerCont = document.querySelector('.computer-result')
+          let computerResult = document.createElement('h2');
+          computerResult.style.cssText = 'font-size: 4em; font-weight: bold; color: #f9ff87';
+          computerResult.textContent = 'WINNER!';
+          computerCont.appendChild(computerResult);
+          /*Computer*/
+          let playerCont = document.querySelector('.player-result')
+          let playerResult = document.createElement('h2');
+          playerResult.style.cssText = 'font-size: 4em; font-weight: bold; color: #f97887';
+          playerResult.textContent = 'LOSER!';
+          playerCont.appendChild(playerResult);
+        }
       }
 
       function playRound(e) {
@@ -122,7 +142,7 @@
         let b = computerPlay().toLowerCase();
         let win = 'Player: ' + a + ' | ' + 'Computer: ' + b + '. ' + 'You win!';
         let lose = 'Player: ' + a + ' | ' + 'Computer: ' + b + '. ' + 'You lost!';
-        let draw = 'Player: ' + a + ' | ' + 'Computer: ' + b + '. ' + 'It\'s a tie!';
+        let draw = 'Player: ' + a + ' | ' + 'Computer: ' + b + '. ' + 'It\'s a draw!';
 
         if (!(a === b)) {
           if (a === 'rock') {

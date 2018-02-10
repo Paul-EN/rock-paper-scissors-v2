@@ -3,7 +3,7 @@
   <head>
     <title>Rock Paper Scissors!</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -89,6 +89,7 @@
         }
       }
 
+      /*
       function finalScore() {
         if (playerWins == 5) {
           let container = document.querySelector('.player-result')
@@ -109,12 +110,13 @@
           container.appendChild(computerResult);
         }
       }
+      */
 
       function pad2(number) {
         return (number < 10 ? '0' : '') + number;
       }
 
-      document.body.addEventListener("click", function playRound(e) {
+      function playRound(e) {
         let playerSelection = e.target.id;
         let a = playerSelection.toLowerCase();
         let b = computerPlay().toLowerCase();
@@ -161,7 +163,9 @@
           }
 
         return checkScore();
-      })
+      }
+
+      document.body.addEventListener("click", playRound);
     </script>
   </body>
 </html>

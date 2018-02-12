@@ -57,34 +57,48 @@
           <p id="computer-counter" class="counter">00</p>
         </div>
       </div>
+      <div class="row round-title">
+        <div class="col-xs-4"></div>
+        <div class="col-xs-4">
+          <h2 style="font-weight: bold">ROUNDS</h2>
+        </div>
+      </div>
       <div class="row round-results">
-        <div class="row round-title">
-          <div class="col-xs-4"></div>
-          <div class="col-xs-4">
-            <h2 style="font-weight: bold">ROUNDS</h2>
-          </div>
-        </div>
-        <!--
-        <div class="row results">
-          <div class="col-xs-1"></div>
-          <div class='col-xs-2 icon-small icon-left'>
-
-          </div>
-          <div class="col-xs-2"></div>
-          <div class='col-xs-2 icon-small icon-middle'>
-
-          </div>
-          <div class="col-xs-2"></div>
-          <div class='col-xs-2 icon-small icon-right'>
-
-          </div>
-          <div class="col-xs-1"></div>
-        </div>
-        -->
       </div>
     </div>
 
     <script>
+      function computerPlay() {
+        let num = Math.floor((Math.random() * 3) + 1);
+        if (num == 1) {
+          return 'rock';
+        } else if (num == 2) {
+            return 'paper';
+          } else {
+              return 'scissors';
+            }
+      }
+
+      let playerWins = 0;
+      let computerWins = 0;
+      let roundDraws = 0;
+
+      function pad2(number) { /* Converts score number to double-digit */
+        return (number < 10 ? '0' : '') + number;
+      }
+
+      function updateScoreBoard() {
+        document.getElementById('player-counter').textContent = pad2(playerWins);
+        document.getElementById('computer-counter').textContent = pad2(computerWins);
+        document.getElementById('draw-counter').textContent = pad2(roundDraws);
+
+        if (!document.querySelector('.final-result')) {
+          if (playerWins == 5 || computerWins == 5) {
+            return finalScore();
+          }
+        }
+      }
+
       function displayRoundResult(result, playerChoice, computerChoice) {
         let container = document.querySelector('.round-results');
         let divRow = document.createElement('div');
@@ -104,7 +118,7 @@
         let divEmpty4 = document.createElement('div');
         divEmpty1.setAttribute('class', 'col-xs-1');
 
-        container.appendChild(divRow);
+        container.insertAdjacentElement('afterbegin', divRow);
         divRow.appendChild(divEmpty1);
         divRow.appendChild(iconCont1);
         divRow.appendChild(divEmpty2);
@@ -124,138 +138,77 @@
         iconCont3.appendChild(compIcon);
       }
 
-      function playerPlay(word) {
-        var str = word;
-        var firstCap = str.charAt(0).toUpperCase();
-        return str.replace(str.charAt(0), firstCap);
-      }
-
-      function computerPlay() {
-        let num = Math.floor((Math.random() * 3) + 1);
-        if (num == 1) {
-          return 'rock';
-        } else if (num == 2) {
-            return 'paper';
-          } else {
-              return 'scissors';
-            }
-      }
-
-      let playerWins = 0;
-      let computerWins = 0;
-      let roundDraws = 0;
-
-      function checkScore() {
-        let scoreBoard = 'Player: ' + pad2(playerWins) + ' | ' + 'Computer: ' + pad2(computerWins); + ' | ' + 'Draws: ' + pad2(roundDraws);
-        if (playerWins > computerWins) {
-          console.log(scoreBoard + '. ' + 'You Win!');
-        } else if (playerWins < computerWins) {
-          console.log(scoreBoard + '. ' + 'You Lose!');
-        } else if (playerWins == computerWins) {
-          console.log(scoreBoard + '. ' + 'It\'s a tie!');
-        }
-
-        updateScoreBoard();
-
-        if (playerWins == 5 || computerWins == 5) {
-          return finalScore();
-        }
-      }
-
-      function pad2(number) {
-        return (number < 10 ? '0' : '') + number;
-      }
-
-      function updateScoreBoard() {
-        document.getElementById('player-counter').textContent = pad2(playerWins);
-        document.getElementById('computer-counter').textContent = pad2(computerWins);
-        document.getElementById('draw-counter').textContent = pad2(roundDraws);
-      }
-
       function finalScore() {
         if (playerWins == 5) {
           /*Player*/
           let playerCont = document.querySelector('.player-final')
           let playerResult = document.createElement('h2');
-          playerResult.style.cssText = 'font-size: 4em; font-weight: bold; color: #f9ff87';
+          playerResult.setAttribute('class', 'final-result');
+          playerResult.style.cssText = 'font-size: 4em; font-weight: bold; color: #fafafa';
           playerResult.textContent = 'WINNER!';
           playerCont.appendChild(playerResult);
           /*Computer*/
           let computerCont = document.querySelector('.computer-final')
           let computerResult = document.createElement('h2');
-          computerResult.style.cssText = 'font-size: 4em; font-weight: bold; color: #f97887';
+          computerResult.setAttribute('class', 'final-result');
+          computerResult.style.cssText = 'font-size: 4em; font-weight: bold; color: #fafafa';
           computerResult.textContent = 'LOSER!';
           computerCont.appendChild(computerResult);
         } else if (computerWins == 5) {
           /*Player*/
-          let computerCont = document.querySelector('.computer-final')
-          let computerResult = document.createElement('h2');
-          computerResult.style.cssText = 'font-size: 4em; font-weight: bold; color: #f9ff87';
-          computerResult.textContent = 'WINNER!';
-          computerCont.appendChild(computerResult);
-          /*Computer*/
           let playerCont = document.querySelector('.player-final')
           let playerResult = document.createElement('h2');
-          playerResult.style.cssText = 'font-size: 4em; font-weight: bold; color: #f97887';
+          playerResult.setAttribute('class', 'final-result');
+          playerResult.style.cssText = 'font-size: 4em; font-weight: bold; color: #fafafa';
           playerResult.textContent = 'LOSER!';
           playerCont.appendChild(playerResult);
+          /*Computer*/
+          let computerCont = document.querySelector('.computer-final')
+          let computerResult = document.createElement('h2');
+          computerResult.setAttribute('class', 'final-result');
+          computerResult.style.cssText = 'font-size: 4em; font-weight: bold; color: #fafafa';
+          computerResult.textContent = 'WINNER!';
+          computerCont.appendChild(computerResult);
         }
       }
-
-
 
       function playRound(e) {
         let a = e.target.id;
         let b = computerPlay();
-        let w = 'winner';
-        let l = 'loser';
-        let d = 'draw';
-        let win = 'Player: ' + a + ' | ' + 'Computer: ' + b + '. ' + 'You win!';
-        let lose = 'Player: ' + a + ' | ' + 'Computer: ' + b + '. ' + 'You lost!';
-        let draw = 'Player: ' + a + ' | ' + 'Computer: ' + b + '. ' + 'It\'s a draw!';
+        let w = 'winner'; let l = 'loser'; let d = 'draw';
 
         if (!(a === b)) {
           if (a === 'rock') {
             if (b === 'scissors') {
-              displayRoundResult(w, a, b);
-              alert(win);
-              console.log(win);
               ++playerWins;
+              displayRoundResult(w, a, b);
             } else if (b === 'paper') {
-              displayRoundResult(l, a, b);
-                alert(lose);
-                console.log(lose);
                 ++computerWins;
+                displayRoundResult(l, a, b);
               }
           } else if (a === 'paper') {
               if (b === 'rock') {
-                alert(win);
-                console.log(win);
                 ++playerWins;
+                displayRoundResult(w, a, b);
               } else if (b === 'scissors') {
-                  alert(lose);
-                  console.log(lose);
                   ++computerWins;
+                  displayRoundResult(l, a, b);
                 }
             } else if (a === 'scissors') {
                 if (b === 'paper') {
-                  alert(win);
-                  console.log(win);
                   ++playerWins;
+                  displayRoundResult(w, a, b);
                 } else if (b === 'rock') {
-                    alert(lose);
-                    console.log(lose);
                     ++computerWins;
+                    displayRoundResult(l, a, b);
                   }
               } else return;
         } else if (a === b) {
-            displayRoundResult(d, a, b);
-            alert(draw);
-            console.log(draw);
             ++roundDraws;
+            displayRoundResult(d, a, b);
           }
 
-        return checkScore();
+        updateScoreBoard();
       }
 
       document.body.addEventListener("click", playRound);
